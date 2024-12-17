@@ -149,7 +149,7 @@ impl Grid {
             neighbor_cells.append(&mut self.get_neighbor_coordinates(cell));
         }
 
-        self.populate_cells(&neighbor_cells, 2, &mut Vec::new());
+        self.populate_cells(&neighbor_cells, 1, &mut neighbor_cells.clone());
     }
     
 
@@ -198,7 +198,7 @@ impl Grid {
 async fn main() {
     let mut source_cells = Vec::<(usize, usize)>::new();
 
-    let mut grid = &mut Grid::new(CELLS_HORIZONTAL, CELLS_VERTICAL);
+    let grid = &mut Grid::new(CELLS_HORIZONTAL, CELLS_VERTICAL);
 
     grid.grid[0][0].cell_type = CellType::Barrier;
 
@@ -217,9 +217,9 @@ async fn main() {
                 let cell_position_y = cell.y_position as f32 * CELL_SIZE;
                 
                 let is_hovered = mouse_x >= cell_position_x 
-                && mouse_x < (cell_position_x + CELL_SIZE) 
-                && mouse_y >= cell_position_y 
-                && mouse_y < (cell_position_y + CELL_SIZE);
+                    && mouse_x < (cell_position_x + CELL_SIZE) 
+                    && mouse_y >= cell_position_y 
+                    && mouse_y < (cell_position_y + CELL_SIZE);
 
                 cell.highlighted = is_hovered;               
 
@@ -297,8 +297,8 @@ async fn main() {
                 );
 
 
-                if is_mouse_button_down(MouseButton::Left) {
-                }
+                // if is_mouse_button_down(MouseButton::Left) {
+                // }
             }
         }
 
