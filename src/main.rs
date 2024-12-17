@@ -8,8 +8,8 @@ use macroquad::prelude::*;
 const CELL_SIZE: f32 = 30.0; 
 // Amount the highlighted cells are dimmed when hovered. Lower value = more dim.
 const HIGHLIGHT_DIM_AMOUNT: f32 = 0.75; 
-const CELLS_HORIZONTAL: usize = 10;
-const CELLS_VERTICAL: usize = 10;
+const CELLS_HORIZONTAL: usize = 20;
+const CELLS_VERTICAL: usize = 20;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum CellType {
@@ -121,10 +121,10 @@ impl Grid {
         if target.y_position > 0 {
             adjacent.push((target.x_position, target.y_position - 1));
         }
-        if target.x_position + 1 < self.column_count_x {  // Fixed boundary check
+        if target.x_position + 1 < self.column_count_x {  
             adjacent.push((target.x_position + 1, target.y_position));
         }
-        if target.y_position + 1 < self.row_count_y {    // Fixed boundary check
+        if target.y_position + 1 < self.row_count_y {    
             adjacent.push((target.x_position, target.y_position + 1));
         }
         adjacent
@@ -176,7 +176,7 @@ impl Grid {
                 let immutable_cell = &self.grid[row_y][col_x];  // temporary immutable borrow
                 let neighbors = self.get_neighbor_coordinates(immutable_cell);
 
-                println!("{:?}", unpopulated_coordinates);
+                // println!("{:?}", unpopulated_coordinates);
 
                 for coord in neighbors {
                     if !new_unpopulated_coordinates.contains(&coord) && !processed_cells.contains(&coord){
@@ -184,7 +184,6 @@ impl Grid {
                         processed_cells.push(coord);
                     }
                 }
-
             }
         }
     if !new_unpopulated_coordinates.is_empty() {
@@ -264,7 +263,10 @@ async fn main() {
                     }
                 }
 
-                // println!("{}\n{:#?}", action_blocked, last_cell);
+                if is_hovered {
+                    println!("{}\n{:?}", action_blocked, (cell.x_position, cell.y_position));
+                }
+                
 
                 
                 // Draw the cell
