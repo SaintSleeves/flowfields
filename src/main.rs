@@ -149,7 +149,7 @@ impl Grid {
             neighbor_cells.append(&mut self.get_neighbor_coordinates(cell));
         }
 
-        self.populate_cells(&neighbor_cells, 2, &Vec::new());
+        self.populate_cells(&neighbor_cells, 2, &mut Vec::new());
     }
     
 
@@ -157,17 +157,17 @@ impl Grid {
         &mut self, 
         unpopulated_coordinates: &Vec<(usize, usize)>, 
         new_cell_number: i32, 
-        processed_cells: &Vec<(usize, usize)>
+        processed_cells: &mut Vec<(usize, usize)>
     ) -> () {
 
-        let mut reached_coordinates = Vec::new();
+        // let mut reached_coordinates = Vec::new();
         let mut new_unpopulated_coordinates = Vec::new();
         
         for &(col_x, row_y) in unpopulated_coordinates {
             let cell = self.get_cell_from_coordinate(col_x, row_y);
             let should_process = match cell.cell_type {
                 CellType::Barrier => false,
-                _ => cell.cell_number.is_none()
+                _ => true,
             };
 
             if should_process {
@@ -179,39 +179,19 @@ impl Grid {
                 println!("{:?}", unpopulated_coordinates);
 
                 for coord in neighbors {
-                    if !new_unpopulated_coordinates.contains(&coord) && !reached_coordinates.contains(&coord){
+                    if !new_unpopulated_coordinates.contains(&coord) && !processed_cells.contains(&coord){
                         new_unpopulated_coordinates.push(coord);
+                        processed_cells.push(coord);
                     }
                 }
 
             }
         }
     if !new_unpopulated_coordinates.is_empty() {
-        self.populate_cells(&new_unpopulated_coordinates, new_cell_number + 1);
+        self.populate_cells(&new_unpopulated_coordinates, new_cell_number + 1, processed_cells);
     }
     }
 }
-
-    // fn populate_cells(&mut self, source_cells: &Vec<(usize, usize)>) -> () {
-    //     let mut processed_cells: Vec<(usize, usize)> = Vec::new();
-    //     let mut process_next: Vec<(usize, usize)> = Vec::new();
-    //     let cell_value = 2;
-
-
-    //     while !process_next.is_empty() {
-    //         for &(col_x, row_y) in source_cells {
-    //             let cell = self.get_cell_from_coordinate(col_x, row_y);
-    //             source_cells.
-    //             let neighbors = self.get_neighbor_coordinates(cell);
-
-    //             for neighbor in neighbors {
-    //                 if !processed_cells.contains(&neighbor) && !source_cells.contains(&neighbor) {
-
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
 
 
 #[macroquad::main("Grid")]
@@ -323,7 +303,7 @@ async fn main() {
         }
 
         if grid_recalculation_needed {
-            *grid = Grid::new(CELLS_HORIZONTAL, CELLS_VERTICAL);
+            // *grid = Grid::new(CELLS_HORIZONTAL, CELLS_VERTICAL);
             grid.source_cells(&source_cells);
             // grid_recalculation_needed = false;
         }
