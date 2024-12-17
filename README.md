@@ -1,1 +1,1 @@
-like yall don't get it this is some **trash**
+Biggest issue is the double clicking thing that happens very consistently. I have no idea why, I'm sure its very obvious and I will feel very silly whn I find out why. Dragging works fine though. Right click to add a source cell, left click to add a barrier.
