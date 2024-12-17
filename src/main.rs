@@ -149,7 +149,7 @@ impl Grid {
             neighbor_cells.append(&mut self.get_neighbor_coordinates(cell));
         }
 
-        self.populate_cells(&neighbor_cells, 1, &mut neighbor_cells.clone());
+        self.populate_cells(&neighbor_cells, 2, &mut neighbor_cells.clone());
     }
     
 
